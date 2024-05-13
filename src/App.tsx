@@ -22,7 +22,11 @@ const App: React.FC = () => {
 	return (
 		<div>
 			<form onSubmit={handleSubmit}>
+				<div>
+					<p>Enter Email address</p>
+				</div>
 				<input type="text" value={textInput} onChange={handleChange} />
+
 				<button type="submit">Submit</button>
 			</form>
 			{message && (

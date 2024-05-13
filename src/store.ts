@@ -2,7 +2,8 @@ import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "./types";
 
-const API_URL = "https://api.restful-api.dev/objects";
+//const API_URL = "https://otp-api-o3w1.onrender.com/api/otp";
+const API_URL = "http://localhost:3020/api/otp";
 
 interface ApiResponse {
 	message: string;
@@ -35,10 +36,12 @@ const apiSlice = createSlice({
 			state.loading = false;
 			state.message = action.payload.message;
 			state.code = action.payload.code;
+			state.error = "";
 		},
 		fetchOtpFailure(state, action: PayloadAction<string>) {
 			state.loading = false;
 			state.error = action.payload;
+			state.message = "";
 		},
 	},
 });
@@ -46,21 +49,34 @@ const apiSlice = createSlice({
 export const { fetchOtpStart, fetchOtpSuccess, fetchOtpFailure } =
 	apiSlice.actions;
 
+const config = {
+	headers: {
+		"Access-Control-Allow-Origin": "*",
+		"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+	},
+};
+
 export const fetchOtp =
 	(text: string): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(fetchOtpStart());
-			console.log("fetchOtp text", text);
-			const response = await axios.post<ApiResponse>(API_URL, { text });
+			const response = await axios.post<ApiResponse>(
+				API_URL,
+				{ email: text },
+				config
+			);
+			console.log("response", response);
 			dispatch(fetchOtpSuccess(response.data));
 		} catch (error) {
-			dispatch(fetchOtpFailure(error.message));
+			console.log("response catch error: ", error.response.data.message);
+			dispatch(fetchOtpFailure(error.response.data.message));
 		}
 	};
 
 export const selectMessage = (state: { api: State }) => state.api.message;
 export const selectCode = (state: { api: State }) => state.api.code;
+export const selectError = (state: { api: State }) => state.api.error;
 
 export const store = configureStore({
 	reducer: {

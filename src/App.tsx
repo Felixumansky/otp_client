@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOtp, selectCode, selectMessage } from "./store";
+import { fetchOtp, selectCode, selectMessage, selectError } from "./store";
 
 const App: React.FC = () => {
 	const [textInput, setTextInput] = useState("");
 	const dispatch = useDispatch<any>();
 	const message = useSelector(selectMessage);
+	const errorMessage = useSelector(selectError);
 	const code = useSelector(selectCode);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +28,11 @@ const App: React.FC = () => {
 			{message && (
 				<div>
 					<p>Message: {message}</p>
+				</div>
+			)}
+			{errorMessage && (
+				<div>
+					<p>Message: {errorMessage}</p>
 				</div>
 			)}
 		</div>

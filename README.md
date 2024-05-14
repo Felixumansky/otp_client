@@ -1,4 +1,6 @@
-React OTP App
+React OTP App for requesting otp by email.
+
+NOTE : opt can be received in the "Junk" folder.
 
 Host url: https://otp-client.onrender.com
 

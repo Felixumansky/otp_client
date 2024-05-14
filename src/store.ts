@@ -2,8 +2,8 @@ import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "./types";
 
-//const API_URL = "https://otp-api-o3w1.onrender.com/api/otp";
-const API_URL = "http://localhost:3020/api/otp";
+const API_URL = "https://otp-api-o3w1.onrender.com/api/otp";
+//const API_URL = "http://localhost:3020/api/otp";
 
 interface ApiResponse {
 	message: string;
